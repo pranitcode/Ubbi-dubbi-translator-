@@ -1,24 +1,31 @@
 const btntranslate = document.querySelector('#btntranslate');
 const bananawords = document.querySelector('#bananawords');
 const outputbox = document.querySelector('#outputbox');
-var url = "https://api.funtranslations.com/translate/ubbi-dubbi.json?"
 
 
 
+var URL = '	https://api.funtranslations.com/translate/yoda.json'
 
-function getUrl(text) {
-  return url +"text=" + text
+function getURL(text){
+  return URL + "?" + "text=" + text;
 }
 
-btntranslate.addEventListener("click", async () => {
+function errorHandler(error){
+    console.log("Error occured!" + error )
+    outputbox.innerHTML = "Plz try after some time!😯😤🥺"
+}
 
- let text = bananawords.value;
-await fetch(getUrl(text))
-      .then(res => res.json())
-  .then(json => {
-    var trantext = json.contents.translated
-    outputbox.innerHTML = trantext;
-      } )
-      .catch(error => console.log(error))
+function clickHandler(){
 
-});
+    var inputText = bananawords.value;
+    fetch(getURL(inputText))
+        .then(response => response.json())
+        .then(json => {
+            var translatedText = json.contents.translated;
+            outputbox.innerText = translatedText;
+        })
+    
+        .catch(errorHandler) 
+}
+
+btntranslate.addEventListener("click", clickHandler);
